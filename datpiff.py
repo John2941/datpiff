@@ -327,7 +327,7 @@ def menu():
             try:
                 all_songs.download(choice)
             except KeyError:
-                print 'Song number selected isn\'t available. Try again.'
+                print 'Song number ({}) selected isn\'t available. Try again.'.format(choice)
                 sleep(1)
             sleep(1)
             loops += 1
@@ -338,14 +338,13 @@ def menu():
                 try:
                     all_songs.download(song)
                 except KeyError:
-                    print 'Song number selected isn\'t available. Try again.'
+                    print 'Song number ({}) selected isn\'t available. Try again.'.format(song)
                 sleep(1)
                 print '\n'
             loops += 1
         elif choice.isalpha() and choice.lower() == 'q':
             print 'Quitting'
             break
-
 
 
 def main():
