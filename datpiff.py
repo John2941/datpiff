@@ -309,10 +309,12 @@ def clear():
     print '\n\n'
 
 
-def menu(all_songs):
+def menu():
     loops = 0
     while True:
+        # You can refresh menu with any character not used.
         clear()
+        all_songs = get_songs()
         if not loops:
             print('You can select multiple songs by requesting multiple numbers\n'
                   '    with spaces in between. (e.g., 1 5 12 3)\n'
@@ -322,26 +324,32 @@ def menu(all_songs):
         if choice.isdigit():
             choice = int(choice)
             clear()
-            all_songs.download(choice)
+            try:
+                all_songs.download(choice)
+            except KeyError:
+                print 'Song number selected isn\'t available. Try again.'
+                sleep(1)
             sleep(1)
             loops += 1
         elif choice.find(' ') > 0 and len(choice) > 2:
             choices = [int(x) for x in choice.split(' ') if x.isdigit()]
             clear()
             for song in choices:
-                all_songs.download(song)
+                try:
+                    all_songs.download(song)
+                except KeyError:
+                    print 'Song number selected isn\'t available. Try again.'
                 sleep(1)
                 print '\n'
             loops += 1
         elif choice.isalpha() and choice.lower() == 'q':
             print 'Quitting'
             break
-        all_songs = get_songs()
+
 
 
 def main():
-    all_songs = get_songs()
-    menu(all_songs)
+    menu()
 
 if __name__ == '__main__':
     main()
