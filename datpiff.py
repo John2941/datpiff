@@ -306,7 +306,7 @@ def get_songs():
 
 def clear():
     os.system('clear')
-    print '\n\n'
+    print '\n'
 
 
 def menu():
@@ -314,6 +314,11 @@ def menu():
     while True:
         # You can refresh menu with any character not used.
         clear()
+        print """
+            ******************************************
+            ***             DATPIFF RIPS           ***
+            ******************************************
+            """
         all_songs = get_songs()
         if not loops:
             print('You can select multiple songs by requesting multiple numbers\n'
