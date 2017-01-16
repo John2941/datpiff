@@ -213,8 +213,11 @@ class Song:
             else:
                 os.rename(os.path.join(unzipped_folder, files), os.path.join(self.save_path, files))
                 # This updates the song's metadata so that windows explorer will recognize it
-                song = MP3(os.path.join(self.save_path, files))
-                song.save(v1=2, v2_version=3)
+                try:
+                    song = MP3(os.path.join(self.save_path, files))
+                    song.save(v1=2, v2_version=3)
+                except:
+                    pass
 
         self.cleanup(unzipped_folder, download_window, screen)
 
