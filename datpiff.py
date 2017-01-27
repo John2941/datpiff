@@ -217,7 +217,7 @@ class Song:
                     song = MP3(os.path.join(self.save_path, files))
                     song.save(v1=2, v2_version=3)
                 except:
-                    pass
+                    passexplorer    
 
         self.cleanup(unzipped_folder, download_window, screen)
 
@@ -358,8 +358,8 @@ def menu():
         'help':      {'command': 'h', 'help': 'Display help menu.'}
     }
     filters = [
-        ('Top Mixtapes', {'url': 'http://www.datpiff.com/mixtapes/celebrated'}),
         ('Home Page', {'url': 'http://www.datpiff.com/'}),
+        ('Top Mixtapes', {'url': 'http://www.datpiff.com/mixtapes/celebrated'}),
         ('Artist', {'url':'http://www.datpiff.com/mixtapes-search?criteria={}&sort=relevance'})
     ]
     filters = OrderedDict(filters)
