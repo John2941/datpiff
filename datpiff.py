@@ -7,7 +7,6 @@
 
 """
 
-
 import curses
 import curses.panel
 import BeautifulSoup
@@ -37,7 +36,8 @@ class Song:
 
     @property
     def medal(self):
-        data = self.content.find('div', {'class': re.compile("awarded (diamond2x|diamond|dblplatinum|platinum|gold|silver|bronze)")})
+        data = self.content.find('div', {
+            'class': re.compile("awarded (diamond2x|diamond|dblplatinum|platinum|gold|silver|bronze)")})
         data = data['class']
         data = re.findall("(diamond2x|diamond|dblplatinum|platinum|gold|silver|bronze)", data)[0]
         return data
@@ -62,14 +62,14 @@ class Song:
 
     @property
     def listens(self):
-        data = self.content.findAll('div', {'class':'text'})
+        data = self.content.findAll('div', {'class': 'text'})
         for tag in data:
             if 'Listens' in tag.text:
                 return tag.text.split(':')[-1]
 
     @property
     def stars(self):
-        data = self.content.findAll('div', {'class':'text'})
+        data = self.content.findAll('div', {'class': 'text'})
         for tag in data:
             if 'Rating' in tag.text:
                 return tag.contents[1]['alt']
@@ -180,7 +180,7 @@ class Song:
                     chunks_read += 1.0
                     progress = (chunks_read * 100) / (total_length / chunk_size)
                     progress = int(progress)
-                    progress_str = '[{0}{1}] {2}%'.format('#' * (progress/4), ' ' * (25 - (progress/4)), progress)
+                    progress_str = '[{0}{1}] {2}%'.format('#' * (progress / 4), ' ' * (25 - (progress / 4)), progress)
                     download_window.addstr(6, 14, progress_str)
                     pflush()
                     f.write(chunk)
@@ -217,7 +217,7 @@ class Song:
                     song = MP3(os.path.join(self.save_path, files))
                     song.save(v1=2, v2_version=3)
                 except:
-                    passexplorer    
+                    passexplorer
 
         self.cleanup(unzipped_folder, download_window, screen)
 
@@ -351,16 +351,16 @@ def menu():
     screen.keypad(True)
     filter_selection = 0
     actions = {
-        'refresh':   {'command': 'r', 'help': 'Refresh current song listing.'},
-        'quit':      {'command': 'q', 'help': 'Quit.'},
-        'download':  {'command': 'd', 'help': 'Download currently selected songs.'},
-        'select':    {'command': ' ', 'help': 'To select song, while highlighted press the space key.'},
-        'help':      {'command': 'h', 'help': 'Display help menu.'}
+        'refresh': {'command': 'r', 'help': 'Refresh current song listing.'},
+        'quit': {'command': 'q', 'help': 'Quit.'},
+        'download': {'command': 'd', 'help': 'Download currently selected songs.'},
+        'select': {'command': ' ', 'help': 'To select song, while highlighted press the space key.'},
+        'help': {'command': 'h', 'help': 'Display help menu.'}
     }
     filters = [
         ('Home Page', {'url': 'http://www.datpiff.com/'}),
         ('Top Mixtapes', {'url': 'http://www.datpiff.com/mixtapes/celebrated'}),
-        ('Artist', {'url':'http://www.datpiff.com/mixtapes-search?criteria={}&sort=relevance'})
+        ('Artist', {'url': 'http://www.datpiff.com/mixtapes-search?criteria={}&sort=relevance'})
     ]
     filters = OrderedDict(filters)
     different_filter = True
@@ -374,11 +374,11 @@ def menu():
 
         # Graphics Banner
         menu_graphics = [
-                        '   ____      _   _____ _ ___ ___    _____ _         ',
-                        '  |    \ ___| |_|  _  |_|  _|  _|  | __  |_|___ ___ ',
-                        '  |  |  | .\'|  _|   __| |  _|  _|  |    -| | . |_ -|',
-                        '  |____/|__,|_| |__|  |_|_| |_|    |__|__|_|  _|___|',
-                        '                                           |_|      ']
+            '   ____      _   _____ _ ___ ___    _____ _         ',
+            '  |    \ ___| |_|  _  |_|  _|  _|  | __  |_|___ ___ ',
+            '  |  |  | .\'|  _|   __| |  _|  _|  |    -| | . |_ -|',
+            '  |____/|__,|_| |__|  |_|_| |_|    |__|__|_|  _|___|',
+            '                                           |_|      ']
         menu_graphics = [
             '  ██████╗  █████╗ ████████╗██████╗ ██╗███████╗███████╗    ██████╗ ██╗██████╗ ███████╗',
             '  ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██║██╔════╝██╔════╝    ██╔══██╗██║██╔══██╗██╔════╝',
@@ -389,12 +389,12 @@ def menu():
             '                                                                                     '
         ]
         menu_graphics = [
-                            '                                                    ',
-                            '   ____      _   _____ _ ___ ___    _____ _         ',
-                            '  |    \ ___| |_|  _  |_|  _|  _|  | __  |_|___ ___ ',
-                            '  |  |  | .\' | _ | __ | | _ | _ | | - | |. | _ - | ',
-                            '  |____/|__,|_| |__|  |_|_| |_|    |__|__|_|  _|___|',
-                            '                                           |_|      '
+            '                                                    ',
+            '   ____      _   _____ _ ___ ___    _____ _         ',
+            '  |    \ ___| |_|  _  |_|  _|  _|  | __  |_|___ ___ ',
+            '  |  |  | .\' | _ | __ | | _ | _ | | - | |. | _ - | ',
+            '  |____/|__,|_| |__|  |_|_| |_|    |__|__|_|  _|___|',
+            '                                           |_|      '
         ]
         menu_graphics = [
             '    ___           _     ___   _    __    __     ___   _             ',
@@ -411,7 +411,8 @@ def menu():
                 line_num += 1
         except curses.error:
             menu_graphics = ['DatPiff Rips']
-            screen.addstr(line_num, (window_x - len(menu_graphics[0])) / 2, menu_graphics[0][:window_x - 2], curses.A_BOLD)
+            screen.addstr(line_num, (window_x - len(menu_graphics[0])) / 2, menu_graphics[0][:window_x - 2],
+                          curses.A_BOLD)
 
         # Determine where the filter bar is
         line_num += 2
@@ -446,11 +447,11 @@ def menu():
             if filters.keys()[filter_selection] == 'Artist':
                 artist_win_x = 60 if window_x > 90 else window_x - 20
                 artist_win, artist_panel = make_panel(
-                                            line_num + 3,
-                                            artist_win_x,
-                                            13,
-                                            window_x / 2 - (artist_win_x / 2),
-                                            'Artist to search:'
+                    line_num + 3,
+                    artist_win_x,
+                    13,
+                    window_x / 2 - (artist_win_x / 2),
+                    'Artist to search:'
                 )
                 pflush()
                 curses.echo()
@@ -468,10 +469,10 @@ def menu():
         line_num += 2
         for key in iter_songs:
             song_str = '[{}] [{}] {} by {}'.format(
-                                ' ' if key not in desired_songs else '*',
-                                iter_songs[key].medal,
-                                iter_songs[key].title,
-                                iter_songs[key].artist
+                ' ' if key not in desired_songs else '*',
+                iter_songs[key].medal,
+                iter_songs[key].title,
+                iter_songs[key].artist
             )[:window_x - 7]
             if key == current_selection:
                 screen.addstr(line_num, 5, song_str, curses.A_REVERSE)
@@ -483,24 +484,32 @@ def menu():
         # Receive user input
         user_input = screen.getch()
 
+        ######################################################
+        #                     Commands                       #
+        ######################################################
+        # Quit
         if user_input == ord(actions['quit']['command']):
             break
+
+        # Highlight selected songs for download
         elif user_input == ord(actions['select']['command']):
             if current_selection not in desired_songs:
                 desired_songs.append(current_selection)
             else:
                 desired_songs.remove(current_selection)
+
+        # Help
         elif user_input == ord(actions['help']['command']):
             help_win_x = 80 if window_x > 84 else window_x - 15
             help_win, help_panel = make_panel(
-                                            6 + len(actions),
-                                            help_win_x,
-                                            8,
-                                            window_x / 2 - (help_win_x / 2),
-                                            'Help toolbar',
-                                            2,
-                                            (help_win_x - 12) / 2,
-                                            curses.A_STANDOUT
+                6 + len(actions),
+                help_win_x,
+                8,
+                window_x / 2 - (help_win_x / 2),
+                'Help toolbar',
+                2,
+                (help_win_x - 12) / 2,
+                curses.A_STANDOUT
             )
             for k, a in enumerate(actions):
                 help_str = '{} - {}'.format(actions[a]['command'], actions[a]['help'])[:help_win_x - 5]
@@ -510,9 +519,10 @@ def menu():
             del help_win, help_panel
             screen.touchwin()
 
+        # Refresh
         elif user_input == ord(actions['refresh']['command']):
             if window_x > 30:
-                refresh_win, refresh_panel = make_panel(5, 25, 15,  (window_x - 25) / 2, 'Refreshing', 2, 7)
+                refresh_win, refresh_panel = make_panel(5, 25, 15, (window_x - 25) / 2, 'Refreshing', 2, 7)
                 pflush()
 
             all_songs = get_songs(url)
@@ -522,14 +532,15 @@ def menu():
             del refresh_win, refresh_panel
             pflush()
 
+        # Download highlighted songs
         elif user_input == ord(actions['download']['command']):
             for song in desired_songs:
                 try:
                     download_win_x = 60 if window_x > 90 else window_x - 20
                     # Trims download str if its too long
                     downloading_str = 'Dl\'ing {} by {}'.format(
-                                                iter_songs[song].title,
-                                                iter_songs[song].artist
+                        iter_songs[song].title,
+                        iter_songs[song].artist
                     )[:download_win_x - 2]
                     downloading_win, downloading_panel = make_panel(
                         10,
@@ -551,21 +562,25 @@ def menu():
             all_songs = get_songs(url)
             iter_songs = all_songs.sortedGroup
 
+        # Down arrow action
         elif user_input == curses.KEY_DOWN:
             if current_selection < len(iter_songs):
                 current_selection += 1
             curses.endwin()
 
+        # Up arrow action
         elif user_input == curses.KEY_UP:
             if current_selection > 0:
                 current_selection -= 1
             curses.endwin()
 
+        # Left arrow action
         elif user_input == curses.KEY_LEFT and current_selection == 0:
             if filter_selection > 0:
                 filter_selection -= 1
                 different_filter = True
 
+        # Right arrow action
         elif user_input == curses.KEY_RIGHT and current_selection == 0:
             if filter_selection < len(filters) - 1:
                 filter_selection += 1
@@ -574,8 +589,10 @@ def menu():
     curses.endwin()
     sys.exit(0)
 
+
 def main():
     menu()
+
 
 if __name__ == '__main__':
     main()
